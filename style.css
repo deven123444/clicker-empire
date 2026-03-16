@@ -1,0 +1,29 @@
+
+body{
+font-family:Arial, sans-serif;
+text-align:center;
+background:#111;
+color:white;
+}
+
+button{
+padding:15px 25px;
+margin:10px;
+font-size:18px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+#clickButton{
+font-size:40px;
+background:#00bfff;
+color:white;
+}
+
+.shop-item{
+background:#222;
+padding:10px;
+margin:10px;
+border-radius:8px;
+}
