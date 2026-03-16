@@ -4,34 +4,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clicker Empire</title>
+<title>Ultimate Clicker Empire PRO</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-<h1>Clicker Empire</h1>
-<p>Build the biggest coin empire on the internet.</p>
+<header class="top">
+<h1>Ultimate Clicker Empire PRO</h1>
+<p>Click, upgrade, collect pets, defeat bosses, explore worlds, and climb the leaderboard.</p>
 </header>
 
 <div class="stats">
-Coins: <span id="coins">0</span> |
-Coins/sec: <span id="cps">0</span> |
-Level: <span id="level">1</span>
+<div class="card">Coins<br><span id="coins">0</span></div>
+<div class="card">Coins/sec<br><span id="cps">0</span></div>
+<div class="card">Level<br><span id="level">1</span></div>
+<div class="card">World<br><span id="world">Earth</span></div>
+<div class="card">Boss HP<br><span id="bossHP">0</span></div>
 </div>
 
+<div class="main">
 <button id="clickButton">CLICK</button>
+</div>
 
+<section>
 <h2>Upgrades</h2>
 <div id="shop"></div>
+</section>
 
+<section>
 <h2>Pets</h2>
 <div id="pets"></div>
+</section>
 
+<section>
+<h2>World Travel</h2>
+<div id="worlds"></div>
+</section>
+
+<section>
+<h2>Boss Fight</h2>
+<button id="spawnBoss">Spawn Boss</button>
+</section>
+
+<section>
+<h2>Daily Reward</h2>
+<button id="dailyReward">Claim Daily Coins</button>
+</section>
+
+<section>
 <h2>Achievements</h2>
 <ul id="achievements"></ul>
+</section>
 
-<button id="save">Save Game</button>
+<section>
+<h2>Leaderboard</h2>
+<ol id="leaderboard"></ol>
+<input id="playerName" placeholder="Name">
+<button id="submitScore">Submit Score</button>
+</section>
+
+<div class="controls">
+<button id="save">Save</button>
+<button id="reset">Reset</button>
+</div>
 
 <script src="game.js"></script>
 </body>
