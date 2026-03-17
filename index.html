@@ -1,73 +1,193 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultimate Clicker Empire PRO</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cosmic Core: Ultra Clicker</title>
+  <meta name="description" content="A polished idle/clicker game with progression, admin tools, local accounts, and optional Firebase cloud features." />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="stars"></div>
 
-<header class="top">
-<h1>Ultimate Clicker Empire PRO</h1>
-<p>Click, upgrade, collect pets, defeat bosses, explore worlds, and climb the leaderboard.</p>
-</header>
+  <div id="loginScreen" class="screen">
+    <div class="login-card">
+      <div class="brand">
+        <div class="brand-badge">✦</div>
+        <div>
+          <h1>Cosmic Core</h1>
+          <p>Steam-style idle clicker starter, GitHub-ready</p>
+        </div>
+      </div>
 
-<div class="stats">
-<div class="card">Coins<br><span id="coins">0</span></div>
-<div class="card">Coins/sec<br><span id="cps">0</span></div>
-<div class="card">Level<br><span id="level">1</span></div>
-<div class="card">World<br><span id="world">Earth</span></div>
-<div class="card">Boss HP<br><span id="bossHP">0</span></div>
-</div>
+      <div class="tabs-inline">
+        <button class="smalltab active" data-auth-tab="login">Login</button>
+        <button class="smalltab" data-auth-tab="register">Register</button>
+      </div>
 
-<div class="main">
-<button id="clickButton">CLICK</button>
-</div>
+      <div class="field">
+        <label for="emailInput">Email</label>
+        <input id="emailInput" type="email" placeholder="you@example.com" />
+      </div>
 
-<section>
-<h2>Upgrades</h2>
-<div id="shop"></div>
-</section>
+      <div class="field">
+        <label for="passwordInput">Password</label>
+        <input id="passwordInput" type="password" placeholder="Password" />
+      </div>
 
-<section>
-<h2>Pets</h2>
-<div id="pets"></div>
-</section>
+      <div class="field" id="displayNameField" style="display:none">
+        <label for="displayNameInput">Display name</label>
+        <input id="displayNameInput" type="text" placeholder="Player name" maxlength="24" />
+      </div>
 
-<section>
-<h2>World Travel</h2>
-<div id="worlds"></div>
-</section>
+      <div class="row">
+        <button id="authPrimaryBtn">Login</button>
+        <button id="guestBtn" class="secondary">Play Guest</button>
+      </div>
 
-<section>
-<h2>Boss Fight</h2>
-<button id="spawnBoss">Spawn Boss</button>
-</section>
+      <div class="helper">
+        <strong>Optional cloud mode:</strong> add your Firebase config to <code>firebase-config.js</code> and the game will use real auth, cloud saves, global leaderboard, and world chat.
+      </div>
 
-<section>
-<h2>Daily Reward</h2>
-<button id="dailyReward">Claim Daily Coins</button>
-</section>
+      <div id="authStatus" class="status muted">Local mode active.</div>
+    </div>
+  </div>
 
-<section>
-<h2>Achievements</h2>
-<ul id="achievements"></ul>
-</section>
+  <div id="app" class="app hidden">
+    <aside class="panel left">
+      <div class="title-block">
+        <h2>Cosmic Core</h2>
+        <p id="playerLabel">Player</p>
+      </div>
 
-<section>
-<h2>Leaderboard</h2>
-<ol id="leaderboard"></ol>
-<input id="playerName" placeholder="Name">
-<button id="submitScore">Submit Score</button>
-</section>
+      <div class="nav-list">
+        <button class="nav-btn active" data-tab="shop">Shop</button>
+        <button class="nav-btn" data-tab="skills">Skills</button>
+        <button class="nav-btn" data-tab="buildings">Buildings</button>
+        <button class="nav-btn" data-tab="bosses">Bosses</button>
+        <button class="nav-btn" data-tab="social">Social</button>
+        <button class="nav-btn" data-tab="stats">Stats</button>
+        <button class="nav-btn" data-tab="settings">Settings</button>
+        <button class="nav-btn admin-only hidden" data-tab="admin">Admin</button>
+      </div>
 
-<div class="controls">
-<button id="save">Save</button>
-<button id="reset">Reset</button>
-</div>
+      <div class="panel inset">
+        <h3>Resources</h3>
+        <div class="resource"><span>Energy</span><strong id="pointsLabel">0</strong></div>
+        <div class="resource"><span>Per second</span><strong id="ppsLabel">0</strong></div>
+        <div class="resource"><span>Gems</span><strong id="gemsLabel">0</strong></div>
+        <div class="resource"><span>Dark Matter</span><strong id="darkLabel">0</strong></div>
+      </div>
 
-<script src="game.js"></script>
+      <div class="panel inset">
+        <h3>Progression</h3>
+        <button id="prestigeBtn" class="gold">Prestige</button>
+        <button id="ascendBtn" class="secondary">Ascend</button>
+        <button id="rebirthBtn" class="secondary">Rebirth</button>
+      </div>
+    </aside>
+
+    <main class="panel main">
+      <div class="hero">
+        <div>
+          <h1>Cosmic Reactor</h1>
+          <p>Tap the core, build your empire, defeat anomalies, and climb the leaderboard.</p>
+        </div>
+        <div class="hero-badges">
+          <span id="modeBadge" class="badge">Local</span>
+          <span class="badge">GitHub Ready</span>
+          <span class="badge">Cloud Optional</span>
+        </div>
+      </div>
+
+      <div class="reactor-wrap">
+        <div class="reactor-ring ring-1"></div>
+        <div class="reactor-ring ring-2"></div>
+        <button id="coreButton" class="core-button" aria-label="Generate energy">
+          <span class="core-inner"></span>
+        </button>
+        <div id="floatingLayer"></div>
+      </div>
+
+      <div class="wide-grid">
+        <section class="card">
+          <h3>Live feed</h3>
+          <div id="newsFeed" class="feed"></div>
+        </section>
+        <section class="card">
+          <h3>Achievements</h3>
+          <div id="achievementsList" class="stack"></div>
+        </section>
+      </div>
+    </main>
+
+    <aside class="panel right">
+      <section id="tab-shop" class="tab active">
+        <h3>Shop</h3>
+        <div id="shopList" class="stack"></div>
+      </section>
+
+      <section id="tab-skills" class="tab">
+        <h3>Skills</h3>
+        <div id="skillsList" class="stack"></div>
+      </section>
+
+      <section id="tab-buildings" class="tab">
+        <h3>Buildings</h3>
+        <div id="buildingsList" class="stack"></div>
+      </section>
+
+      <section id="tab-bosses" class="tab">
+        <h3>Bosses</h3>
+        <div class="boss-box">
+          <div id="bossStatus">No boss active.</div>
+          <button id="spawnBossBtn">Spawn Boss</button>
+        </div>
+      </section>
+
+      <section id="tab-social" class="tab">
+        <h3>Leaderboard</h3>
+        <div id="leaderboardList" class="stack compact"></div>
+        <h3>Chat</h3>
+        <div id="chatMessages" class="chat-box"></div>
+        <div class="row">
+          <input id="chatInput" placeholder="Type a message" maxlength="140" />
+          <button id="chatSendBtn">Send</button>
+        </div>
+      </section>
+
+      <section id="tab-stats" class="tab">
+        <h3>Stats</h3>
+        <div id="statsList" class="stack"></div>
+      </section>
+
+      <section id="tab-settings" class="tab">
+        <h3>Settings</h3>
+        <div class="stack">
+          <button id="exportSaveBtn">Export Save</button>
+          <button id="importSaveBtn" class="secondary">Import Save</button>
+          <input id="importSaveInput" type="file" accept=".json,application/json" class="hidden" />
+          <button id="signOutBtn" class="secondary">Sign Out</button>
+          <button id="resetSaveBtn" class="danger">Reset Save</button>
+        </div>
+      </section>
+
+      <section id="tab-admin" class="tab">
+        <h3>Owner Panel</h3>
+        <div class="stack">
+          <button id="adminPointsBtn">+100,000 Energy</button>
+          <button id="adminGemsBtn">+5,000 Gems</button>
+          <button id="adminUnlockBtn">Unlock Everything</button>
+          <button id="adminMaxBtn">Max Core Stats</button>
+          <button id="adminBossBtn" class="danger">Delete Boss</button>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <div id="toastRoot" class="toast-root"></div>
+
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
